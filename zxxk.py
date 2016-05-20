@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
 	Checkcode()
 	code = raw_input('请输入验证码:\n')
-	#Login(code,'xkwyx01', '55669r')
+	
 	fp = file('config.json')
 	s = json.load(fp)
 	for key in s.keys():
