@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python
 #coding=utf-8
 
-import requests, sys, urllib, os, json
+import requests, sys, urllib, os, json, os.path
 from bs4 import BeautifulSoup
 
 reload(sys)
@@ -10,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 
 mysession = requests.Session()
 
-def Checkcode():
+def checkCode():
 	'''
 	获取验证码cookie
 	'''
@@ -51,7 +51,7 @@ def Login(code,username,password):
 	
 	
 	return post_resp.cookies
-def Getinfo():
+def getInfo():
 	'''
 	获取用户基本信息
 	'''
@@ -88,18 +88,26 @@ def downFile(fileID):
 		filename = name + '.ppt'
 	elif '.mp4?' in realurl:
 		filename = name + '.mp4'
+	elif '.pdf?' in realurl:
+		filename = name + '.pdf'
 	else:
 		filename = name + '.rar'
 	filename = filename.decode('utf-8')
 
-	os.chdir('./Downloads')
+	if os.path.exists('Downloads'):
+		os.chdir('Downloads')
+	else:
+		os.mkdir('Downloads')
+		os.chdir('Downloads')
+
+	# os.chdir('Downloads')
 	with open(filename,'wb') as testf:
 		for chunk in respfile.iter_content(chunk_size=1024):
 			testf.write(chunk)
 
 
 def main():
-	Checkcode()
+	checkCode()
 	code = raw_input('请输入验证码:\n')
 	
 	fp = file('config.json')
@@ -108,7 +116,7 @@ def main():
 		username = key
 		passwd = s[key]
 	Login(code,username, passwd)
-	un,ul = Getinfo()
+	un,ul = getInfo()
 	return un,ul
 
 if __name__ == '__main__':

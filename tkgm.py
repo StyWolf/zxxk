@@ -1,23 +1,27 @@
 ﻿#coding=utf-8
 
-import zxxk,time
+import zxxk, time, json
 from Tkinter import *
 
 app = Tk()
 app.geometry('200x200')
-app.title("学习TK")
+app.title("学习网")
 
 def view():
-
+	
+	fp = file('config.json')
+	s = json.load(fp)
+	for key in s.keys():
+		username = key
+		passwd = s[key]
+	
 	try:
-		zxxk.Login(e.get(), "", "")
-		# m.set("登录成功，请输入编码ID下载\n",zxxk.Getinfo())
-		m.set(zxxk.Getinfoz())
+		zxxk.Login(e.get(), username, passwd)
+		m.set(zxxk.getInfo())
 	except:
-		#print e.get()
-		time.sleep(1)
 		m.set('你输入的验证码有误，请重新输入！')
-		zxxk.Checkcode()
+		zxxk.checkCode()
+		time.sleep(1)
 		global imgt
 		imgt = PhotoImage(file='yzm.png')
 		aLable['image'] = imgt
@@ -28,7 +32,7 @@ def downfile():
 
 
 
-zxxk.Checkcode()
+zxxk.checkCode()
 
 topLable = Label(app,text="请输入以下验证码登录")
 topLable.pack()
