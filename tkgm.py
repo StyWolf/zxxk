@@ -10,7 +10,7 @@ app.title("学习TK")
 def view():
 
 	try:
-		zxxk.Login(e.get(), "Sty_Wolf", "zh901018")
+		zxxk.Login(e.get(), "", "")
 		# m.set("登录成功，请输入编码ID下载\n",zxxk.Getinfo())
 		m.set(zxxk.Getinfoz())
 	except:
