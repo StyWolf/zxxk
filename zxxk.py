@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/env python
-#-*-coding=utf-8-*-
+#coding=utf-8
 
 import requests, sys, urllib, os, json
 from bs4 import BeautifulSoup
@@ -62,6 +62,7 @@ def Getinfo():
 	userName = soup.find(class_='bl-name').text
 	userLevel = soup.find(class_='item_sort').text
 
+
 	return (userName,userLevel)
 
 def downFile(fileID):
@@ -95,10 +96,9 @@ def downFile(fileID):
 	with open(filename,'wb') as testf:
 		for chunk in respfile.iter_content(chunk_size=1024):
 			testf.write(chunk)
-	
 
-if __name__ == '__main__':
 
+def main():
 	Checkcode()
 	code = raw_input('请输入验证码:\n')
 	
@@ -109,11 +109,36 @@ if __name__ == '__main__':
 		passwd = s[key]
 	Login(code,username, passwd)
 	un,ul = Getinfo()
-	print '用户名：{0} \n账户信息:{1}'.format(un,ul)
-	while True:
-		FileID = raw_input("请输入编码ID:")
-		print "请稍候，正在下载中。。。"
-		downFile(FileID)
+	return un,ul
+
+if __name__ == '__main__':
+
+
+		# Checkcode()
+		# code = raw_input('请输入验证码:\n')
+		
+		# fp = file('config.json')
+		# s = json.load(fp)
+		# for key in s.keys():
+		# 	username = key
+		# 	passwd = s[key]
+		# Login(code,username, passwd)
+		# un,ul = Getinfo()
+		# print '用户名：{0} \n账户信息:{1}'.format(un,ul)
+		while True:
+			try:
+				un,ul = main()
+				print '用户名：{0} \n账户信息:{1}'.format(un,ul)
+				break
+			except:
+				print '你输入的验证码有误，请重新输入：'
+		
+
+
+		while True:
+			FileID = raw_input("请输入编码ID:")
+			print "请稍候，正在下载中。。。"
+			downFile(FileID)
 		
 	
 
